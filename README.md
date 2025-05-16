@@ -1,40 +1,115 @@
-#  Brain Tumor Detection with CNN
+#  Brain Tumor Classification with EfficientNetB3
 
-This is a personal project where I trained a Convolutional Neural Network (CNN) to detect brain tumors from MRI scans. It’s a binary classification model that predicts whether a tumor is present or not in the given image.
+This project uses transfer learning with **EfficientNetB3** and TensorFlow to classify brain MRI images into four categories:
+
+- Glioma
+- Meningioma
+- Pituitary tumor
+- No tumor
+
+It’s designed for high performance on limited medical data, using advanced training techniques, callbacks, and evaluation metrics.
+
+---
 
 ##  Dataset
-The dataset comes from [Kaggle](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection) and contains MRI images divided into two folders:
-- `yes/` – images with brain tumors
-- `no/` – images without tumors
 
-I've placed these inside a `data/` folder for training.
+The dataset is from [Kaggle](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset).
 
-##  Model Details
-I used TensorFlow and Keras to build the CNN. The architecture includes:
-- Conv2D layers with ReLU activation
-- Batch Normalization
-- MaxPooling
-- Flatten + Dense layer for binary classification
+###  Folder Structure
 
-The input size for images is standardized to `(240, 240, 3)` and pixel values are normalized between 0 and 1.
+Before training, organize your dataset like this:
 
-##  Performance
-After training the model for multiple epochs, I reached the following results:
-- **Validation Accuracy:** 91%
-- **Test Accuracy:** 89%
-- **F1 Score (Test):** 0.88
+```
+brain_tumor/
+├── Training/
+│   ├── glioma/
+│   ├── meningioma/
+│   ├── pituitary/
+│   └── notumor/
+└── Testing/
+    ├── glioma/
+    ├── meningioma/
+    ├── pituitary/
+    └── notumor/
+```
 
-##  Visualizations
-I’ve also included:
-- Plots for training/validation accuracy and loss
-- Sample MRI images with tumor and no-tumor labels
-- F1 score and confusion matrix
+Each folder should contain the respective MRI images.
 
-##  Getting Started
-If you want to run this locally:
-1. Clone the repo:
+---
+
+##  Model Overview
+
+- Base model: **EfficientNetB3** (pretrained on ImageNet)
+- Classification head: BatchNormalization → Dense → Dropout → Dense (Softmax)
+- Optimizer: `Adamax`
+- Loss: `categorical_crossentropy`
+- Includes a **custom training callback** with learning rate scheduling and early stopping logic
+
+---
+
+##  How to Run
+
+1. Clone the repository:
    ```bash
-   git clone https://github.com/Indhusrikrishnaraj/brain-tumor-detection-cnn.git
-   cd brain-tumor-detection-cnn
+   git clone https://github.com/your-username/brain-tumor-detection-efficientnet.git
+   cd brain-tumor-detection-efficientnet
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Make sure the dataset is placed inside the `brain_tumor/` directory as shown above.
+
+4. Launch the notebook:
+   ```bash
+   jupyter notebook notebooks/brain_tumor_detection_efficientnet.ipynb
+   ```
+
+---
+
+##  Results
+
+| Metric        | Accuracy |
+|---------------|----------|
+| Train         | 100%     |
+| Validation    | 98.7%    |
+| Test          | 98.6%    |
+
+- ✅ Confusion matrix
+- ✅ Classification report
+- ✅ Accuracy/loss visualizations
+- ✅ F1-score per class
+
+---
+
+##  Tech Stack
+
+- TensorFlow / Keras
+- EfficientNetB3
+- ImageDataGenerator
+- Scikit-learn
+- Matplotlib, Seaborn
+- OpenCV, Pandas, NumPy
+
+---
+
+##  Why EfficientNetB3?
+
+EfficientNetB3 is part of Google’s EfficientNet family of models. It provides a strong balance of speed and accuracy, making it a great fit for medical imaging with limited data.
+
+- Pretrained on ImageNet
+- Efficient for GPU or CPU inference
+- Achieves high accuracy with fewer parameters
+
+---
+
+##  License
+
+This project is licensed under the **MIT License**. See the `LICENSE` file for details.
+
+
+
 
 
